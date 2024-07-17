@@ -37,6 +37,27 @@ public class CategoryService {
         categoryRepo.deleteById(categoryId);
     }
 
-    public void mergeCategories() {
+    public Category mergeCategories(Long categoryId1, Long categoryId2, String newCategoryName) {
+        Category category1 = categoryRepo.findById(categoryId1)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId1));
+        Category category2 = categoryRepo.findById(categoryId2)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId2));
+
+        if(category1.getIsIncome() != category2.getIsIncome()){
+            throw new IllegalArgumentException("Both categories must have the same income type");
+        }
+
+        Category newCategory = new Category();
+        newCategory.setCategoryName(newCategoryName);
+        newCategory.setIsIncome(category1.getIsIncome());
+
+        newCategory = categoryRepo.save(newCategory);
+
+        categoryRepo.updateTransactionCategories(newCategory, List.of(categoryId1, categoryId2));
+
+        categoryRepo.delete(category1);
+        categoryRepo.delete(category2);
+
+        return newCategory;
     }
 }

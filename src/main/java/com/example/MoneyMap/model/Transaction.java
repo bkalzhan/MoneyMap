@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Transactions")
@@ -25,4 +26,7 @@ public class Transaction {
     private String name;
 
     private int amount;
+
+    @Column(name = "transaction_date")
+    private LocalDate date = LocalDate.now(); // Default to current date if not provided
 }

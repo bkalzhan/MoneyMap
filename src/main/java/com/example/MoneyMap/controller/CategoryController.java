@@ -102,4 +102,19 @@ public class CategoryController {
         categoryService.deleteCategory(categoryId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/category/merge")
+    public ResponseEntity<Category> mergeCategories(
+            @RequestParam Long categoryId1,
+            @RequestParam Long categoryId2,
+            @RequestParam String newCategoryName){
+        try {
+            Category category = categoryService.mergeCategories(categoryId1, categoryId2, newCategoryName);
+            return new ResponseEntity<>(category, HttpStatus.OK);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
