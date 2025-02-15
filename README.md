@@ -99,7 +99,3 @@ docker run -p 8080:8080 user-service
 - Implement JWT-based authentication.
 - Add API documentation with Swagger.
 - Introduce a caching mechanism for improved performance.
-
-## License
-
-This project is licensed under the **MIT License**.
